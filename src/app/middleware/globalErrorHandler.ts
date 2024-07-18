@@ -57,7 +57,7 @@ const globalErrorHandler: ErrorRequestHandler = async (
     ];
   }
 
-  return res.send(statusCode).json({
+  return res.status(statusCode).json({
     success: false,
     statusCode,
     message: error?.name | (message as any),

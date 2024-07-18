@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TUser = {
   name: string;
   email: string;
@@ -7,3 +9,7 @@ export type TUser = {
   address: string;
   isDeleted?: boolean;
 };
+
+export interface UserModel extends Model<TUser> {
+  isUserExist(name: string, email: string): boolean;
+}

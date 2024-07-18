@@ -4,9 +4,12 @@ import { ZodSchema } from 'zod';
 const zodValidationMiddleware = (schema: ZodSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await schema.parseAsync(req.body);
+      const body = req.body;
+      console.log('Testing', body);
+      await schema.parseAsync(body);
       next();
     } catch (error) {
+      console.log('From zod validation',error);
       next(error);
     }
   };
