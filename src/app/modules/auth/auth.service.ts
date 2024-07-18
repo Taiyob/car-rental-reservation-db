@@ -3,6 +3,7 @@ import config from '../../config';
 import AppError from '../../errors/AppError';
 import { TUser } from '../user/user.interface';
 import { User } from '../user/user.model';
+import { createToken } from './auth.utils';
 
 const createUserIntoDB = async (payLoad: TUser) => {
   const email = payLoad.email;
@@ -40,7 +41,14 @@ const loginUserFromDB = async (payLoad: TUser) => {
     throw new AppError(httpStatus.FORBIDDEN, 'Password not matched');
   }
 
-  return { user };
+  const jwtPayLoad = { email: user?.email, userRole: user?.role };
+  const accessToken = createToken(
+    jwtPayLoad,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  return { user, accessToken };
 };
 
 export const AuthServices = {
