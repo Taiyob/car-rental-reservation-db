@@ -58,7 +58,7 @@ const deleteCar = catchAsync(async (req, res) => {
   console.log(id);
   const body = req.body;
   console.log(body);
-  const result = await CarServices.updateCarFromDB(id, body);
+  const result = await CarServices.deleteCarFromDB(id);
   console.log('From car update controller to see result:', result);
 
   sendResponse(res, {

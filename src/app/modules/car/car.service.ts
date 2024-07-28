@@ -54,7 +54,7 @@ const updateCarFromDB = async (id: string, payLoad: Partial<TCar>) => {
   return result;
 };
 
-const deleteCarFromDB = async (id: string, payLoad: Partial<TCar>) => {
+const deleteCarFromDB = async (id: string) => {
   const car = await Car.isCarExist(id);
   if (!car) {
     throw new AppError(
@@ -63,10 +63,14 @@ const deleteCarFromDB = async (id: string, payLoad: Partial<TCar>) => {
     );
   }
 
-  const result = await Car.findOneAndUpdate({ _id: id }, payLoad, {
-    new: true,
-    runValidators: true,
-  });
+  const result = await Car.findOneAndUpdate(
+    { _id: id },
+    { isDeleted: true },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   return result;
 };
