@@ -15,4 +15,8 @@ router.get('/', CarControllers.getAllCars);
 
 router.get('/:id', CarControllers.getSingleCar);
 
+router.patch('/:id', CarControllers.updateCar);
+
+router.delete('/:id', CarControllers.deleteCar);
+
 export const CarRoutes = router;

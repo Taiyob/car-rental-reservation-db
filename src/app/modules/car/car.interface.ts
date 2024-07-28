@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TCar = {
   name: string;
   description: string;
@@ -8,3 +10,8 @@ export type TCar = {
   pricePerHour: number;
   isDeleted?: boolean;
 };
+
+export interface CarModel extends Model<TCar> {
+  isCarNameExit(name: string): boolean;
+  isCarExist(id: string): Promise<TCar | null>;
+}

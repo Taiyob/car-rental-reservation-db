@@ -1,9 +1,9 @@
 import { model, Schema } from 'mongoose';
-import { TCar } from './car.interface';
+import { CarModel, TCar } from './car.interface';
 
-const carSchema = new Schema<TCar>(
+const carSchema = new Schema<TCar, CarModel>(
   {
-    name: { type: String, required: [true, 'Name is required'] },
+    name: { type: String, required: [true, 'Name is required'], unique: true },
     description: { type: String, required: [true, 'Description is required'] },
     color: { type: String, required: [true, 'Color is required'] },
     isElectric: {
@@ -33,4 +33,12 @@ const carSchema = new Schema<TCar>(
   { timestamps: true },
 );
 
-export const Car = model<TCar>('Car', carSchema);
+carSchema.statics.isCarExit = async function (name: string) {
+  return await Car.findOne({ name });
+};
+
+carSchema.statics.isCarExist = async function (id: string) {
+  return await Car.findById(id);
+};
+
+export const Car = model<TCar, CarModel>('Car', carSchema);
