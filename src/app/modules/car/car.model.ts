@@ -10,7 +10,11 @@ const carSchema = new Schema<TCar>(
       type: Boolean,
       required: [true, 'Electric status is required'],
     },
-    status: { type: String, enum: ['available', 'unavailable'] },
+    status: {
+      type: String,
+      enum: ['available', 'unavailable'],
+      default: 'available',
+    },
     features: {
       type: [String],
       required: true,
