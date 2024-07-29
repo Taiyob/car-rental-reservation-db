@@ -15,7 +15,11 @@ router.get('/', CarControllers.getAllCars);
 
 router.get('/:id', CarControllers.getSingleCar);
 
-router.patch('/:id', CarControllers.updateCar);
+router.patch(
+  '/:id',
+  zodValidationMiddleware(CarValidation.updateCarValidationSchema),
+  CarControllers.updateCar,
+);
 
 router.delete('/:id', CarControllers.deleteCar);
 

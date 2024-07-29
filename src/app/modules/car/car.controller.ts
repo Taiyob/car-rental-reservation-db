@@ -39,11 +39,8 @@ const getSingleCar = catchAsync(async (req, res) => {
 
 const updateCar = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const body = req.body;
-  console.log(body);
   const result = await CarServices.updateCarFromDB(id, body);
-  console.log('From car update controller to see result:', result);
 
   sendResponse(res, {
     success: true,
@@ -55,11 +52,7 @@ const updateCar = catchAsync(async (req, res) => {
 
 const deleteCar = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  const body = req.body;
-  console.log(body);
   const result = await CarServices.deleteCarFromDB(id);
-  console.log('From car update controller to see result:', result);
 
   sendResponse(res, {
     success: true,
