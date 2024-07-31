@@ -4,6 +4,8 @@ import sendResponse from '../../utils.ts/sendResponse';
 import { BookingCarServices } from './booking.service';
 
 const bookingCar = catchAsync(async (req, res) => {
+  const user = req.user;
+
   const result = await BookingCarServices.bookingCarIntoDB(req.body);
 
   sendResponse(res, {

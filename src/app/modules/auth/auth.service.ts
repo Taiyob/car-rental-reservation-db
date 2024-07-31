@@ -41,7 +41,7 @@ const loginUserFromDB = async (payLoad: TUser) => {
     throw new AppError(httpStatus.FORBIDDEN, 'Password not matched');
   }
 
-  const jwtPayLoad = { email: user?.email, userRole: user?.role };
+  const jwtPayLoad = { email: user?.email, userRole: user?.role, user: user };
   const accessToken = createToken(
     jwtPayLoad,
     config.jwt_access_secret as string,

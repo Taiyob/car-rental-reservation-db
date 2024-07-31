@@ -2,6 +2,7 @@ import { Router } from 'express';
 import zodValidationMiddleware from '../../middleware/zodValidationMiddleware';
 import { CarValidation } from './car.validation';
 import { CarControllers } from './car.controller';
+import authMiddleware from '../../middleware/auth';
 
 const router = Router();
 
@@ -11,7 +12,7 @@ router.post(
   CarControllers.createCar,
 );
 
-router.get('/', CarControllers.getAllCars);
+router.get('/', authMiddleware(), CarControllers.getAllCars);
 
 router.get('/:id', CarControllers.getSingleCar);
 
