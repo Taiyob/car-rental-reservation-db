@@ -4,7 +4,8 @@ import { TCar } from './car.interface';
 import { Car } from './car.model';
 
 const createCarIntoDB = async (payLoad: TCar) => {
-  const name = Car.isCarNameExit(payLoad?.name);
+  const name = await Car.isCarNameExit(payLoad?.name);
+  console.log('Car name:', name);
   if (name) {
     throw new AppError(
       httpStatus.UNAUTHORIZED,

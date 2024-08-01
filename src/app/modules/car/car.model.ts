@@ -33,7 +33,7 @@ const carSchema = new Schema<TCar, CarModel>(
   { timestamps: true },
 );
 
-carSchema.statics.isCarExit = async function (name: string) {
+carSchema.statics.isCarNameExit = async function (name: string) {
   return await Car.findOne({ name });
 };
 

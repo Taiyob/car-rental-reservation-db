@@ -4,9 +4,14 @@ import sendResponse from '../../utils.ts/sendResponse';
 import { BookingCarServices } from './booking.service';
 
 const bookingCar = catchAsync(async (req, res) => {
+  const payLoad = req.body;
   const user = req.user;
+  console.log('From Controller-Catch user:', user);
 
-  const result = await BookingCarServices.bookingCarIntoDB(req.body);
+  const result = await BookingCarServices.bookingCarIntoDB({
+    payLoad,
+    userInfo: user,
+  });
 
   sendResponse(res, {
     success: true,

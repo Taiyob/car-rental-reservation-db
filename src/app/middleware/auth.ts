@@ -4,8 +4,9 @@ import catchAsync from '../utils.ts/catchAsync';
 import AppError from '../errors/AppError';
 import httpStatus from 'http-status';
 import config from '../config';
+import { TUserRole } from '../modules/user/user.interface';
 
-const authMiddleware = () => {
+const authMiddleware = (...userRole: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     if (!token) {
@@ -21,6 +22,14 @@ const authMiddleware = () => {
         }
         //console.log('Decode object:', decode);
         //const { email, userRole, user } = decode;
+
+        const role = (decode as JwtPayload)?.userRole;
+        if (userRole && !userRole.includes(role)) {
+          throw new AppError(
+            httpStatus.UNAUTHORIZED,
+            `You are not authorized!... ${role} can not handle it`,
+          );
+        }
 
         req.user = decode as JwtPayload;
 

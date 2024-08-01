@@ -12,6 +12,6 @@ export type TCar = {
 };
 
 export interface CarModel extends Model<TCar> {
-  isCarNameExit(name: string): boolean;
+  isCarNameExit(name: string): Promise<boolean>;
   isCarExist(id: unknown): Promise<TCar | null>;
 }
