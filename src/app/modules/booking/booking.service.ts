@@ -53,4 +53,24 @@ const bookingCarIntoDB = async ({
   return populatedResult;
 };
 
-export const BookingCarServices = { bookingCarIntoDB };
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.find().populate('user').populate('car');
+
+  return result;
+};
+
+const getUserHisAllBookingsFromDB = async (userInfo: JwtPayload) => {
+  const { user } = userInfo;
+
+  const result = await Booking.find({ user: user._id })
+    .populate('user')
+    .populate('car');
+
+  return result;
+};
+
+export const BookingCarServices = {
+  bookingCarIntoDB,
+  getAllBookingsFromDB,
+  getUserHisAllBookingsFromDB,
+};

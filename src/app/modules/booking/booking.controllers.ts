@@ -6,7 +6,6 @@ import { BookingCarServices } from './booking.service';
 const bookingCar = catchAsync(async (req, res) => {
   const payLoad = req.body;
   const user = req.user;
-  console.log('From Controller-Catch user:', user);
 
   const result = await BookingCarServices.bookingCarIntoDB({
     payLoad,
@@ -21,6 +20,30 @@ const bookingCar = catchAsync(async (req, res) => {
   });
 });
 
+const getAllBookings = catchAsync(async (req, res) => {
+  const result = await BookingCarServices.getAllBookingsFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Bookings retrieved successfully',
+    data: result,
+  });
+});
+
+const getUserAllHisBookings = catchAsync(async (req, res) => {
+  const user = req.user;
+  const result = await BookingCarServices.getUserHisAllBookingsFromDB(user);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'My Bookings retrieved successfully',
+    data: result,
+  });
+});
 export const BookingCarControllers = {
   bookingCar,
+  getAllBookings,
+  getUserAllHisBookings,
 };

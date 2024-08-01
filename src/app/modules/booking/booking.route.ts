@@ -9,9 +9,21 @@ const router = Router();
 
 router.post(
   '/',
-  authMiddleware(USER_ROLE.admin, USER_ROLE.user),
+  authMiddleware(USER_ROLE.user),
   zodValidationMiddleware(BookingValidations.createBookingValidationSchema),
   BookingCarControllers.bookingCar,
+);
+
+router.get(
+  '/',
+  authMiddleware(USER_ROLE.admin),
+  BookingCarControllers.getAllBookings,
+);
+
+router.get(
+  '/my-bookings',
+  authMiddleware(USER_ROLE.user),
+  BookingCarControllers.getUserAllHisBookings,
 );
 
 export const BookingRoutes = router;
