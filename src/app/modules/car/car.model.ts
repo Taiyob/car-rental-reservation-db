@@ -29,6 +29,7 @@ const carSchema = new Schema<TCar, CarModel>(
     },
     //createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to User model
     isDeleted: { type: Boolean, default: false },
+    image: { type: [String], required: true },
   },
   { timestamps: true },
 );

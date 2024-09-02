@@ -18,4 +18,16 @@ router.post(
   AuthControllers.loginUser,
 );
 
+router.post(
+  '/change-password',
+  zodValidationMiddleware(AuthValidation.changePasswordValidationAchema),
+  AuthControllers.changePassword,
+);
+
+router.post(
+  '/refresh-token',
+  zodValidationMiddleware(AuthValidation.refreshTokenValidationSchema),
+  AuthControllers.refreshToken,
+);
+
 export const AuthRoutes = router;

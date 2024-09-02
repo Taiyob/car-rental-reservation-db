@@ -9,6 +9,7 @@ export type TCar = {
   features: string[];
   pricePerHour: number;
   isDeleted?: boolean;
+  image: string[];
 };
 
 export interface CarModel extends Model<TCar> {

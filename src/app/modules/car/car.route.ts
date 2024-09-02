@@ -16,6 +16,8 @@ router.post(
 
 router.get('/', CarControllers.getAllCars);
 
+router.get('/image', CarControllers.getAllCarsImage);
+
 router.get('/:id', CarControllers.getSingleCar);
 
 router.patch(
@@ -29,6 +31,12 @@ router.delete(
   '/:id',
   authMiddleware(USER_ROLE.admin),
   CarControllers.deleteCar,
+);
+
+router.put(
+  '/return',
+  authMiddleware(USER_ROLE.admin),
+  CarControllers.returnCar,
 );
 
 export const CarRoutes = router;

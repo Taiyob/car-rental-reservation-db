@@ -62,6 +62,7 @@ const globalErrorHandler: ErrorRequestHandler = async (
     statusCode,
     message: error?.name | (message as any),
     errorResources,
+    error,
   });
 };
 

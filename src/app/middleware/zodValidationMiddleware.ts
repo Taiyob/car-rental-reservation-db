@@ -1,18 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodSchema } from 'zod';
+import catchAsync from '../utils.ts/catchAsync';
 
 const zodValidationMiddleware = (schema: ZodSchema) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const body = req.body;
-      console.log('Testing', body);
-      await schema.parseAsync(body);
-      next();
-    } catch (error) {
-      console.log('From zod validation',error);
-      next(error);
-    }
-  };
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    await schema.parseAsync({
+      body: req.body,
+      cookies: req.cookies,
+    });
+
+    next();
+  });
 };
 
 export default zodValidationMiddleware;

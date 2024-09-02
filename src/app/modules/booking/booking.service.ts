@@ -4,6 +4,8 @@ import { Car } from '../car/car.model';
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 import { JwtPayload } from 'jsonwebtoken';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { bookingSearchableFields } from './booking.constant';
 
 const bookingCarIntoDB = async ({
   payLoad,
@@ -53,14 +55,35 @@ const bookingCarIntoDB = async ({
   return populatedResult;
 };
 
-const getAllBookingsFromDB = async () => {
-  const result = await Booking.find().populate('user').populate('car');
-
-  return result;
+const getAllBookingsFromDB = async (query: Record<string, unknown>) => {
+  //const result1 = await Booking.find().populate('user').populate('car');
+  const bookingQuery = new QueryBuilder(
+    Booking.find().populate('user').populate('car'),
+    query,
+  )
+    .search(bookingSearchableFields)
+    .filter();
+  // .sort()
+  // .paginate()
+  // .fields();
+  try {
+    const result = await bookingQuery.modelQuery;
+    return result;
+  } catch (error) {
+    // Log or handle error appropriately
+    console.error('Error retrieving bookings:', error);
+    throw new Error('Error retrieving bookings');
+  }
 };
 
 const getUserHisAllBookingsFromDB = async (userInfo: JwtPayload) => {
   const { user } = userInfo;
+  if (!user || !user._id) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'User information is missing or invalid.',
+    );
+  }
 
   const result = await Booking.find({ user: user._id })
     .populate('user')
