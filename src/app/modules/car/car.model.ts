@@ -29,11 +29,12 @@ const carSchema = new Schema<TCar, CarModel>(
     },
     //createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to User model
     isDeleted: { type: Boolean, default: false },
+    image: { type: [String], required: true },
   },
   { timestamps: true },
 );
 
-carSchema.statics.isCarExit = async function (name: string) {
+carSchema.statics.isCarNameExit = async function (name: string) {
   return await Car.findOne({ name });
 };
 

@@ -4,7 +4,8 @@ import sendResponse from '../../utils.ts/sendResponse';
 import { CarServices } from './car.service';
 
 const createCar = catchAsync(async (req, res) => {
-  const result = await CarServices.createCarIntoDB(req.body);
+  const body = req.body;
+  const result = await CarServices.createCarIntoDB(body);
 
   sendResponse(res, {
     success: true,
@@ -15,12 +16,24 @@ const createCar = catchAsync(async (req, res) => {
 });
 
 const getAllCars = catchAsync(async (req, res) => {
-  const result = await CarServices.getAllCarsFromDB();
+  const result = await CarServices.getAllCarsFromDB(req.query);
 
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Cars retrieved successfully',
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
+const getAllCarsImage = catchAsync(async (req, res) => {
+  const result = await CarServices.getAllCarsImageFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Images retrieve successfully',
     data: result,
   });
 });
@@ -62,10 +75,27 @@ const deleteCar = catchAsync(async (req, res) => {
   });
 });
 
+const returnCar = catchAsync(async (req, res) => {
+  const { bookingId, endTime } = req.body;
+  const result = await CarServices.returnCarFromCustomer({
+    payLoad: { endTime },
+    bookingId,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Car returned successfully',
+    data: result,
+  });
+});
+
 export const CarControllers = {
   createCar,
   getAllCars,
+  getAllCarsImage,
   getSingleCar,
   updateCar,
   deleteCar,
+  returnCar,
 };

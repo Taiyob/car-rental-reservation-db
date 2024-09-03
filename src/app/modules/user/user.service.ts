@@ -1,4 +1,3 @@
-import { TUser } from './user.interface';
 import { User } from './user.model';
 
 const getAllUserFromDB = async () => {
