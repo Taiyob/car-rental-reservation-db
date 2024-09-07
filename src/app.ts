@@ -16,6 +16,7 @@ const corsOptions: CorsOptions = {
       !origin ||
       [
         'http://localhost:5173',
+        'https://car-collection-reservation-frontend.vercel.app',
         'https://api.imgbb.com/1/upload?key=b5d58f2b65bca81795a60b4d18decd6e',
       ].includes(origin)
     ) {

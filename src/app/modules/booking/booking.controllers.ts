@@ -21,7 +21,7 @@ const bookingCar = catchAsync(async (req, res) => {
 });
 
 const getAllBookings = catchAsync(async (req, res) => {
-  const result = await BookingCarServices.getAllBookingsFromDB();
+  const result = await BookingCarServices.getAllBookingsFromDB(req.query);
 
   sendResponse(res, {
     success: true,

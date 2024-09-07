@@ -27,6 +27,17 @@ const getAllCars = catchAsync(async (req, res) => {
   });
 });
 
+const getSellingCar = catchAsync(async (req, res) => {
+  const result = await CarServices.getSellingCarFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Selling car retrieved successfully',
+    data: result,
+  });
+});
+
 const getAllCarsImage = catchAsync(async (req, res) => {
   const result = await CarServices.getAllCarsImageFromDB();
 
@@ -93,6 +104,7 @@ const returnCar = catchAsync(async (req, res) => {
 export const CarControllers = {
   createCar,
   getAllCars,
+  getSellingCar,
   getAllCarsImage,
   getSingleCar,
   updateCar,

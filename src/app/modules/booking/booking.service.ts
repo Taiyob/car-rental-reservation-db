@@ -31,7 +31,7 @@ const bookingCarIntoDB = async ({
   if (carAvailability === 'unavailable') {
     throw new AppError(
       httpStatus.SERVICE_UNAVAILABLE,
-      'Sorry!!! At this time, this product is not in-stock',
+      'Sorry!!! At this time, this car is not available',
     );
   }
 
