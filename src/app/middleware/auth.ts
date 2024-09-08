@@ -28,7 +28,8 @@ const authMiddleware = (...requiredRoles: TUserRole[]) => {
     }
     console.log('From App TS:', decoded);
 
-    const { email, userRole, user, iat } = decoded;
+    //const { email, userRole, user, iat } = decoded;
+    const { email, userRole, iat } = decoded;
     const userCheck = await User.isUserExistByEmail(email);
     if (!userCheck) {
       throw new AppError(httpStatus.NOT_FOUND, 'User not found');
