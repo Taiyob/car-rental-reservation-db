@@ -62,15 +62,15 @@ const getAllBookingsFromDB = async (query: Record<string, unknown>) => {
     query,
   )
     .search(bookingSearchableFields)
-    .filter();
-  // .sort()
-  // .paginate()
-  // .fields();
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
   try {
     const result = await bookingQuery.modelQuery;
-    return result;
+    const meta = await bookingQuery.countTotal();
+    return { meta, result };
   } catch (error) {
-    // Log or handle error appropriately
     console.error('Error retrieving bookings:', error);
     throw new Error('Error retrieving bookings');
   }
