@@ -36,6 +36,13 @@ const getAllCarsFromDB = async (query: Record<string, unknown>) => {
   return { meta, result };
 };
 
+const getSellingCarFromDB = async () => {
+  const result = await Car.find({ status: 'available', isDeleted: false });
+  console.log(result.length);
+
+  return result;
+};
+
 const getAllCarsImageFromDB = async () => {
   const result = await Car.find(
     {},
@@ -177,6 +184,7 @@ const returnCarFromCustomer = async ({
 export const CarServices = {
   createCarIntoDB,
   getAllCarsFromDB,
+  getSellingCarFromDB,
   getAllCarsImageFromDB,
   getSingleCarFromDB,
   updateCarFromDB,

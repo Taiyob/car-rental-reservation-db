@@ -16,6 +16,8 @@ router.post(
 
 router.get('/', CarControllers.getAllCars);
 
+router.get('/available-car', CarControllers.getSellingCar);
+
 router.get('/image', CarControllers.getAllCarsImage);
 
 router.get('/:id', CarControllers.getSingleCar);

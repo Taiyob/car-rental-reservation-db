@@ -9,7 +9,7 @@ const router = Router();
 
 router.post(
   '/',
-  authMiddleware(USER_ROLE.user),
+  authMiddleware(USER_ROLE.user, USER_ROLE.admin),
   zodValidationMiddleware(BookingValidations.createBookingValidationSchema),
   BookingCarControllers.bookingCar,
 );
@@ -22,7 +22,7 @@ router.get(
 
 router.get(
   '/my-bookings',
-  authMiddleware(USER_ROLE.user),
+  authMiddleware(USER_ROLE.user, USER_ROLE.admin),
   BookingCarControllers.getUserAllHisBookings,
 );
 
