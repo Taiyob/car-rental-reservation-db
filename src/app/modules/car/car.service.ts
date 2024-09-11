@@ -130,13 +130,13 @@ const returnCarFromCustomer = async ({
   bookingId: string;
 }) => {
   const bookedCarDetails = await Booking.findById(bookingId);
-  console.log('Checking the ID:', bookedCarDetails);
+  //console.log('Checking the ID:', bookedCarDetails);
   if (!bookedCarDetails) {
     throw new AppError(httpStatus.NOT_FOUND, 'This car is not booked!!!');
   }
 
   const car = await Car.findById({ _id: bookedCarDetails.car });
-  console.log('See the price:', car);
+  //console.log('See the price:', car);
   if (!car) {
     throw new AppError(httpStatus.NOT_FOUND, 'Car details not found!');
   }
@@ -148,7 +148,7 @@ const returnCarFromCustomer = async ({
       'Price do not set in the car properly!!',
     );
   }
-
+  console.log(payLoad);
   if (!payLoad.startTime || !payLoad.endTime) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -156,18 +156,36 @@ const returnCarFromCustomer = async ({
     );
   }
 
-  const startTime = new Date(`${bookedCarDetails.date}T${payLoad.startTime}`);
-  const endTime = new Date(`${bookedCarDetails.date}T${payLoad.endTime}`);
+  // const startTime = new Date(`${bookedCarDetails.date}T${payLoad.startTime}`);
+  // const endTime = new Date(`${bookedCarDetails.date}T${payLoad.endTime}`);
 
-  if (endTime <= startTime) {
+  // if (endTime <= startTime) {
+  //   throw new AppError(
+  //     httpStatus.BAD_REQUEST,
+  //     'End time must be after start time!',
+  //   );
+  // }
+
+  // const durationInHours =
+  //   (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
+  // const totalCost = price * durationInHours;
+
+  const [startHour, startMinute] = payLoad.startTime.split(':').map(Number);
+  const [endHour, endMinute] = payLoad.endTime.split(':').map(Number);
+
+  const startTimeInMinutes = startHour * 60 + startMinute;
+  const endTimeInMinutes = endHour * 60 + endMinute;
+
+  if (endTimeInMinutes <= startTimeInMinutes) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       'End time must be after start time!',
     );
   }
 
-  const durationInHours =
-    (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
+  const durationInMinutes = endTimeInMinutes - startTimeInMinutes;
+  const durationInHours = durationInMinutes / 60;
+
   const totalCost = price * durationInHours;
 
   const result = await Booking.findOneAndUpdate(

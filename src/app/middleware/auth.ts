@@ -21,12 +21,12 @@ const authMiddleware = (...requiredRoles: TUserRole[]) => {
         token,
         config.jwt_access_secret as string,
       ) as JwtPayload;
-      console.log('From App TS:', decoded);
+      //console.log('From App TS:', decoded);
     } catch (error) {
-      console.log('From App TS:', decoded);
+      //console.log('From App TS:', decoded);
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized');
     }
-    console.log('From App TS:', decoded);
+    //console.log('From App TS:', decoded);
 
     //const { email, userRole, user, iat } = decoded;
     const { email, userRole, iat } = decoded;
