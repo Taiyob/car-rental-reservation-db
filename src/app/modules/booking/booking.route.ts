@@ -26,6 +26,12 @@ router.get(
   BookingCarControllers.getUserAllHisBookings,
 );
 
+router.get(
+  '/single-booking/:id',
+  authMiddleware(USER_ROLE.admin),
+  BookingCarControllers.getSingleBooking,
+);
+
 router.patch(
   '/change-booking-status/:id',
   authMiddleware(USER_ROLE.admin),

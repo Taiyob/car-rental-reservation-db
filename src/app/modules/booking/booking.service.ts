@@ -92,6 +92,12 @@ const getUserHisAllBookingsFromDB = async (userInfo: JwtPayload) => {
   return result;
 };
 
+const getSingleBookingFromDB = async (id: string) => {
+  const result = await Booking.findById(id).populate('user').populate('car');
+
+  return result;
+};
+
 const bookingApprovalFromAdmin = async (id: string) => {
   const isBookingExist = await Booking.isBookingExistById(id);
   if (!isBookingExist) {
@@ -122,5 +128,6 @@ export const BookingCarServices = {
   bookingCarIntoDB,
   getAllBookingsFromDB,
   getUserHisAllBookingsFromDB,
+  getSingleBookingFromDB,
   bookingApprovalFromAdmin,
 };
