@@ -149,7 +149,7 @@ const returnCarFromCustomer = async ({
     );
   }
   console.log(payLoad);
-  if (!payLoad.startTime || !payLoad.endTime) {
+  if (!bookedCarDetails.startTime || !payLoad.endTime) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       'Start time and end time are required!',
@@ -170,7 +170,9 @@ const returnCarFromCustomer = async ({
   //   (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60);
   // const totalCost = price * durationInHours;
 
-  const [startHour, startMinute] = payLoad.startTime.split(':').map(Number);
+  const [startHour, startMinute] = bookedCarDetails.startTime
+    .split(':')
+    .map(Number);
   const [endHour, endMinute] = payLoad.endTime.split(':').map(Number);
 
   const startTimeInMinutes = startHour * 60 + startMinute;
@@ -190,7 +192,7 @@ const returnCarFromCustomer = async ({
 
   const result = await Booking.findOneAndUpdate(
     { _id: bookingId },
-    { endTime: payLoad.endTime, totalCost },
+    { endTime: payLoad.endTime, totalCost, status: 'approved' },
     { new: true, runValidators: true },
   )
     .populate('user')

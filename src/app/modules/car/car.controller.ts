@@ -87,9 +87,9 @@ const deleteCar = catchAsync(async (req, res) => {
 });
 
 const returnCar = catchAsync(async (req, res) => {
-  const { bookingId, startTime, endTime } = req.body;
+  const { bookingId, endTime } = req.body;
   const result = await CarServices.returnCarFromCustomer({
-    payLoad: { startTime, endTime },
+    payLoad: { endTime },
     bookingId,
   });
 

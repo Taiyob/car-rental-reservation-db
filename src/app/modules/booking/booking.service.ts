@@ -92,8 +92,35 @@ const getUserHisAllBookingsFromDB = async (userInfo: JwtPayload) => {
   return result;
 };
 
+const bookingApprovalFromAdmin = async (id: string) => {
+  const isBookingExist = await Booking.isBookingExistById(id);
+  if (!isBookingExist) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'There is no booking against this ID.',
+    );
+  }
+
+  const isAlreadyApproved = isBookingExist.status;
+  if (isAlreadyApproved === 'approved') {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      'This booking has already been approved.',
+    );
+  }
+
+  const payLoad = { status: 'approved' };
+  const result = await Booking.findByIdAndUpdate(id, payLoad, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
+
 export const BookingCarServices = {
   bookingCarIntoDB,
   getAllBookingsFromDB,
   getUserHisAllBookingsFromDB,
+  bookingApprovalFromAdmin,
 };

@@ -26,4 +26,13 @@ router.get(
   BookingCarControllers.getUserAllHisBookings,
 );
 
+router.patch(
+  '/change-booking-status/:id',
+  authMiddleware(USER_ROLE.admin),
+  zodValidationMiddleware(
+    BookingValidations.updateBookingStatusValidationSchema,
+  ),
+  BookingCarControllers.bookingApproval,
+);
+
 export const BookingRoutes = router;

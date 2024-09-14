@@ -44,8 +44,22 @@ const getUserAllHisBookings = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const bookingApproval = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingCarServices.bookingApprovalFromAdmin(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Booking status updated',
+    data: result,
+  });
+});
+
 export const BookingCarControllers = {
   bookingCar,
   getAllBookings,
   getUserAllHisBookings,
+  bookingApproval,
 };
