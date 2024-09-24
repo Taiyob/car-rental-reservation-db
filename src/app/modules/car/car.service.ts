@@ -23,17 +23,22 @@ const createCarIntoDB = async (payLoad: TCar) => {
 };
 
 const getAllCarsFromDB = async (query: Record<string, unknown>) => {
-  const carQuery = new QueryBuilder(Car.find(), query)
-    .search(carSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+  try {
+    const carQuery = new QueryBuilder(Car.find(), query)
+      .search(carSearchableFields)
+      .filter()
+      .sort()
+      .paginate()
+      .fields();
 
-  const result = await carQuery.modelQuery;
-  const meta = await carQuery.countTotal();
+    const result = await carQuery.modelQuery;
+    const meta = await carQuery.countTotal();
 
-  return { meta, result };
+    return { meta, result };
+  } catch (error) {
+    console.log(error);
+    return { meta: { page: 1, limit: 0, total: 0, totalPage: 0 }, result: [] };
+  }
 };
 
 const getSellingCarFromDB = async () => {

@@ -12,7 +12,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
   const name = payLoad.name;
   const checkexistingUserNameAndEmail = User.isUserExist(name, email);
 
-  if (checkexistingUserNameAndEmail) {
+  if (!checkexistingUserNameAndEmail) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       'This name or mail is already in use for this web',

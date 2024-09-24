@@ -28,7 +28,7 @@ router.get(
 
 router.get(
   '/single-booking/:id',
-  authMiddleware(USER_ROLE.user),
+  authMiddleware(USER_ROLE.user, USER_ROLE.admin),
   BookingCarControllers.getSingleBooking,
 );
 

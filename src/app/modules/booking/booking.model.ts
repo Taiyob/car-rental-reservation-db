@@ -20,7 +20,7 @@ const bookingSchema = new Schema<TBooking, BookingModel>(
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
-      default: null,
+      default: 'pending',
     },
   },
   { timestamps: true },
