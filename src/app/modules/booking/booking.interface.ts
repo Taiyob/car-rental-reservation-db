@@ -8,6 +8,7 @@ export type TBooking = {
   endTime?: string;
   totalCost?: number;
   status?: string;
+  transactionId?: string;
 };
 // 15minutesbd@gmail.com
 

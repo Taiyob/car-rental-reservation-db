@@ -6,6 +6,7 @@ import { Booking } from './booking.model';
 import { JwtPayload } from 'jsonwebtoken';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { bookingSearchableFields } from './booking.constant';
+import { initiatePayment } from '../payment/payment.utils';
 
 const bookingCarIntoDB = async ({
   payLoad,
@@ -124,10 +125,38 @@ const bookingApprovalFromAdmin = async (id: string) => {
   return result;
 };
 
+const completeBooking = async (id: string, payLoad: Partial<TBooking>) => {
+  const transactionId = `TXN-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { ...payLoad, transactionId },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Data do not found!!!');
+  }
+  await result.save();
+
+  const paymentData = {
+    transactionId,
+  };
+
+  const paymentSession = await initiatePayment(paymentData);
+  console.log(paymentSession);
+
+  return paymentSession;
+};
+
 export const BookingCarServices = {
   bookingCarIntoDB,
   getAllBookingsFromDB,
   getUserHisAllBookingsFromDB,
   getSingleBookingFromDB,
   bookingApprovalFromAdmin,
+  completeBooking,
 };
