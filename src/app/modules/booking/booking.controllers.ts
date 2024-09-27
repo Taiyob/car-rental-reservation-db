@@ -69,10 +69,23 @@ const bookingApproval = catchAsync(async (req, res) => {
   });
 });
 
+const completeBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingCarServices.completeBooking(id, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Booking completed with payment',
+    data: result,
+  });
+});
+
 export const BookingCarControllers = {
   bookingCar,
   getAllBookings,
   getUserAllHisBookings,
   getSingleBooking,
   bookingApproval,
+  completeBooking,
 };

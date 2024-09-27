@@ -41,4 +41,6 @@ router.patch(
   BookingCarControllers.bookingApproval,
 );
 
+router.patch('/complete-booking/:id', BookingCarControllers.completeBooking);
+
 export const BookingRoutes = router;

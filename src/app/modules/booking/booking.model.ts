@@ -19,9 +19,10 @@ const bookingSchema = new Schema<TBooking, BookingModel>(
     totalCost: { type: Number, default: 0 },
     status: {
       type: String,
-      enum: ['pending', 'approved', 'rejected'],
+      enum: ['pending', 'approved', 'rejected', 'completed'],
       default: 'pending',
     },
+    transactionId: { type: String },
   },
   { timestamps: true },
 );
